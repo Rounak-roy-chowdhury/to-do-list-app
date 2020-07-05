@@ -7,44 +7,50 @@ class body extends React.Component {
         todoItems:[],
         taskName:"",
         taskDescription:"",
-        deadline:""
+        deadline:"",
+        addTask:false,
+        output:false
     };
+
     render(){
-        // console.log(this.state)
+
+        var addTask = (<div id="myModal1" className="modal1">
+        <div className="modal-content1">
+            <span className="close1" onClick={() => this.closeModal1()}>&times;</span>
+            <p>ADD NEW TASK</p>
+            <br/>
+            <input type="textbox" placeholder="Add new task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
+            <input type="textbox" placeholder="Add new task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
+            <input type="date" placeholder="Add new task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
+            <br/>
+            <button onClick={() => this.addTask()}>Add Task</button>
+        </div>
+    </div>);
+
         var output = this.state.todoItems.map(item => (
-            <TodoItem onClick={(e) => {this.edit(item._id)}}  key={item._id} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} id={item._id}/>
+            <TodoItem  key={item._id} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} id={item._id}/>
         ));
+
         return(
             <div className="body">
                 YOUR TASK LIST
                 {output}
 
                 <button id="myBtn1" onClick={() => this.openModal1()}>Add new item</button>
-        
-                <div id="myModal1" className="modal1">
-                    <div className="modal-content1">
-                        <span className="close1" onClick={() => this.closeModal1()}>&times;</span>
-                        <p>ADD NEW TASK</p>
-                        <br/>
-                        <input type="textbox" placeholder="Add new task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
-                        <input type="textbox" placeholder="Add new task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
-                        <input type="date" placeholder="Add new task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
-                        <br/>
-                        <button onClick={() => this.addTask()}>Add Task</button>
-                    </div>
-                </div>
-               
+                {this.state.addTask?addTask:""}
             </div>
             );
     }
 
      openModal1(){
-        var modal = document.getElementById("myModal1");
-        modal.style.display = "block";
+         this.setState({
+            addTask:true
+         })
     }
      closeModal1(){
-        var modal = document.getElementById("myModal1");
-        modal.style.display = "none";
+        this.setState({
+            addTask:false
+         })
     }
 
 
@@ -86,11 +92,11 @@ class body extends React.Component {
     };
 
     extra(){
-        this.closeModal1()
             this.setState({
             taskName:"",
             taskDescription:"",
-            deadline:""
+            deadline:"",
+            addTask:false
         })
         this.showTask()
     }

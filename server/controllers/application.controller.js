@@ -61,10 +61,8 @@ const editTask = async(req, res) => {
 }
 const deleteTask = async(req, res) => {
     const { id } = req.params;
-    // const data = req.body;
     try {
         await Todo.findByIdAndDelete(id);
-        // console.log(data)
         res.send({ success: true });
     } catch (error) {
         console.error(error);

@@ -7,48 +7,56 @@ class TodoItem extends React.Component {
         taskName:"",
         taskDescription:"",
         deadline:"",
-        taskId:""
+        showModal:false,
+        output:false,
+        normalRender:true
     };
     render(){
-        // var output = this.state.todoItems.map(item => (
-        //     <TodoItem key={item._id} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} />
-        // ));
+        // console.log(this.state.showModal)
+        var output = this.state.todoItems.map(item => (
+            <TodoItem key={item._id} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} />
+        ));
 
-        // console.log(output)
-        console.log(this.props.id)
-        console.log(this.state)
-        return (
-            <div className="todo-item" >
-                <div className="details">
-                    <div className="todo-title">
-                        {this.props.TaskName}
-                        <br/>
-                        {this.props.id}
-                    </div>
-                    <div className="todo-description">
-                        {this.props.TaskDescription}
-                    </div>
-                    <div>
-                        {this.props.Deadline}
-                    </div>
+        var normalRender =( <div>
+            <div className="details">
+                <div className="todo-title">
+                    {this.props.TaskName}
+                    <br/>
+                    {this.props.id}
                 </div>
-                <div className="EditDelete">
-                    <button id="myBtn" onClick={() => this.openModal()}>Edit</button> 
-                        <form div id="myModal" className="modal" >
-                            <div className="modal-content">
-                                <span className="close" onClick={() => this.closeModal()}>&times;</span>
-                                <p>Edit TASK</p>
-                                <br/>
-                                <input type="textbox" placeholder="Edit task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
-                                <input type="textbox" placeholder="Edit task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
-                                <input type="date" placeholder="Edit task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
-                                <br/>
-                                <button value={this.props.id} className="finalEdit" onClick={(e) => this.edit(e,"value")}>Edit Task</button>
-                            </div>
-                        </form>
-                    <button id="deleteButton" onClick={()=>this.delete()}>Delete</button>
+                <div className="todo-description">
+                    {this.props.TaskDescription}
+                </div>
+                <div>
+                    {this.props.Deadline}
                 </div>
             </div>
+            <div className="EditDelete">
+                <button id="myBtn" onClick={() => this.openModal()}>Edit</button> 
+                <button value={this.props.id} id="deleteButton" onClick={(e)=>this.delete(e)}>Delete</button>
+            </div>
+        </div>);
+
+        var editWindow = (<form id="myModal" className="modal" >
+        <div className="modal-content">
+            <span className="close" onClick={() => this.closeModal()}>&times;</span>
+            <p>Edit TASK</p>
+            <br/>
+            <input type="textbox" placeholder="Edit task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
+            <input type="textbox" placeholder="Edit task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
+            <input type="date" placeholder="Edit task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
+            <br/>
+            <button value={this.props.id} className="finalEdit" onClick={(e) => this.edit(e)}>Edit Task</button>
+        </div>
+    </form>);
+
+        return (
+            <div className="todo-item" >
+                {this.state.showModal?editWindow:""}
+               {this.state.normalRender?normalRender:""}
+               {this.state.output?output:""}
+            </div>
+               
         );
         
     }
@@ -67,18 +75,16 @@ class TodoItem extends React.Component {
 
 
     openModal(){
-    //    console.log(this.props.id)
-    //    var v = this.props.id
-    //    this.setState({
-    //        taskId:v
-    //    })
-        var modal = document.getElementById("myModal");
-        modal.style.display = "block";
+    
+        this.setState({
+            showModal:true
+        })
+        console.log(this.state.showModal)
     }
      closeModal(){
-        console.log(this.props.id)
-        var modal = document.getElementById("myModal");
-        modal.style.display = "none";
+        this.setState({
+            showModal:false
+        })
     }
 
 
@@ -118,56 +124,69 @@ class TodoItem extends React.Component {
     edit(e)
     {
         e.preventDefault();
+        this.setState({
+            normalRender:false
+        })
+        e.preventDefault();
         console.log(e.target.value)
-        // console.log(this.state)
-        // console.log(id)
-        // var url = "http://localhost:5000/api/todo/application/editTask/" ;
-        // console.log(url)
+        var url = "http://localhost:5000/api/todo/application/editTask/" + e.target.value ;
+        console.log(url)
 
-        // fetch(url,{
-        //     method:"PUT",
-        //     body: JSON.stringify({
-        //         "taskName":this.state.taskName,
-        //         "taskDescription":this.state.taskDescription,
-        //         "deadline":this.state.deadline
-        //         }),
-        //     headers:{
-        //         "Content-type":"application/json; charset=UTF-8"
-        //         }
-        //     })
-        //     this.showTask()
-        //     this.closeModal()
-            // this.setState({
-            //     taskName:"",
-            //     taskDescription:"",
-            //     deadline:"",
-            //     taskId:""
-            // })
+        fetch(url,{
+            method:"PUT",
+            body: JSON.stringify({
+                "taskName":this.state.taskName,
+                "taskDescription":this.state.taskDescription,
+                "deadline":this.state.deadline
+                }),
+            headers:{
+                "Content-type":"application/json; charset=UTF-8"
+                }
+            }).then(() => this.extra()  )            
     };
 
+    extra(){
+        this.setState({
+        taskName:"",
+        taskDescription:"",
+        deadline:"",
+        showModal:false,
+    })
+    this.showTask()
 
-//     async showTask(req,res) {
-//         let test=[]
-//         let response = await fetch("http://localhost:5000/api/todo/application/showTask")
-//         let data = await response.json()
+    }
+
+
+    async showTask(req,res) {
+        let test=[]
+        let response = await fetch("http://localhost:5000/api/todo/application/showTask")
+        let data = await response.json()
      
-//         for(var i=0; i<data.length;i++)
-//         {
-//             test.push(data[i])
-//         }
-//         this.setState({
-//             todoItems : test
-//         })
+        for(var i=0; i<data.length;i++)
+        {
+            test.push(data[i])
+        }
+        this.setState({
+            todoItems : test,
+            output : true
+        })
       
-//     } 
+    } 
 
-//     delete()
-//     {
+    delete(e)
+    {
+        e.preventDefault();
+        console.log(e.target.value)
+        var url = "http://localhost:5000/api/todo/application/deleteTask/" + e.target.value ;
+        console.log(url)
 
-//     }
+        fetch(url,{
+            method:"POST",
+            }).then(() => this.extra()  )
+    }
 
-//
- }
+
+}
    
 export default TodoItem
 
