@@ -1,15 +1,47 @@
 import React from 'react';
 
-function navbar(){
-    return(
-        <div  className="navbar">
-            <div className="search-bar">
-                <input type="textbox" placeholder="Search your task"/>
+class Navbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.search = this.search.bind(this);
+        this.state={
+            taskName:"",
+        };
+      }
+    
+    render(){
+        return(
+            <div>
+                 <div  className="navbar">
+                <div className="search-bar">
+                    <input id="search" type="textbox" placeholder="Search your task" onChange={(e) => this.input(e)} />
+                    <button id="icon" type="submit" onClick={()=>this.search()}><i className="fa fa-search"></i></button>
+                </div>
             </div>
-            <div className="icons"> 
-            hiii   
             </div>
-        </div>
-    );
+        );
+    }
+
+    input(e){
+        e.preventDefault();
+        this.setState({
+            taskName:e.target.value
+
+        })
+
+    }
+    search(){
+        if(this.state.taskName!="")
+        {
+            this.props. FunctionSearch(this.state.taskName)
+        }
+        else if(this.state.taskName==="")
+        {
+            this.props. FunctionShow()
+        }
+
+    }
+
+
 }
-export default navbar;
+export default Navbar

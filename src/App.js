@@ -6,7 +6,6 @@ import Body from './body'
 function App() {
   return (
     <div className="App">
-      <Navbar/>
       <Body/>
         
     </div>

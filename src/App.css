@@ -1,31 +1,69 @@
 .navbar{
-  background-color: goldenrod;
+  background-color: #d63031;
   width: 100%;
-  height: 80px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  height: 60px;
+  
 }
 
-
-.icons{
-width: 100px;
-background-color: red;
+#search{
+  margin-top: 17px;
+  width:200px;
+  height:15px;
+  padding: 5px;
+  border: none;
+  outline: none;
+}
+#icon{
+  margin-top: 17px;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  background-color: white;
+}
+#icon:hover{
+  cursor: pointer;
 }
 
 .search-bar{
-  width: 100px;
+  margin-right: 700px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 /* ==================================================== */
 .body{
-  background-color: whitesmoke;
-  height: 100vw;
+  background-color: white;
+  height: 100%;
   width: 100%;
 }
 
 body{
   margin: 0%;
+}
+
+#header{
+  font-family: 'Poppins', sans-serif;
+  margin-left: 215px;
+  margin-top: 50px;
+}
+
+#myBtn1{
+  cursor: pointer;
+outline: none;
+font-family: 'Poppins', sans-serif;
+background-color: #d63031;
+color: white;
+border: none;
+border-radius: 5px;
+margin-left: 520px;
+height: 40px;
+
+}
+
+#myBtn1:hover{
+  background-color:  white;
+  color: #d63031;
 }
 
 /* ========================================================= */
@@ -35,6 +73,7 @@ body{
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
+  padding-left: 40px;
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -50,7 +89,22 @@ body{
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
+  border-radius: 10px;
+}
+
+.modal1 {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* The Close Button */
@@ -70,67 +124,144 @@ body{
 /* ================================= */
 
 .todo-item{
+  padding: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   border-bottom: 0.01px solid gainsboro;
+  width: 70%;
+  margin-left: 215px;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: all 0.1s;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 1px 2px #888888;
+}
+
+.todo-item:hover{
+  background-color: whitesmoke;
+  cursor: pointer;
 }
 
 .details{
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
- 
 }
-/* .EditDelete{
-  display: none;} /* Hidden by default */
 
-
-.editButton{
+#editButton{
   display: block; /* Hidden by default */
-}
-.deleteButton{
-  display: block; /* Hidden by default */
-}
-
-/* ========================================================= */
-/* The Modal (background) */
-.modal1 {
-  display: block; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content1 {
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The Close Button */
-.close1 {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close1:hover,
-.close1:focus {
+  background-color: whitesmoke;
   color: #000;
-  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  border: none;
+  outline:none;
+  
+}
+#deleteButton{
+  background-color: whitesmoke;
+  color: #000;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  display: block; /* Hidden by default */
+  outline:none;
+}
+#deleteButton:hover{
   cursor: pointer;
 }
-/* ================================= */
+#editButton:hover{
+  cursor: pointer;
+}
+
+
+.EditDelete
+{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  font-family: 'Poppins', sans-serif;
+}
+
+#editTask{
+  font-family: 'Poppins', sans-serif;
+}
+#addTask{
+  font-family: 'Poppins', sans-serif;
+}
+
+#formStyling{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+#formStylingButtons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.finalButton{
+  margin-left: 210px;
+  cursor: pointer;
+outline: none;
+font-family: 'Poppins', sans-serif;
+background-color: #d63031;
+color: white;
+border: none;
+border-radius: 5px;
+height: 40px;
+}
+
+.finalButtonAdd{
+  margin-left: 210px;
+  cursor: pointer;
+outline: none;
+font-family: 'Poppins', sans-serif;
+background-color: #d63031;
+color: white;
+border: none;
+border-radius: 5px;
+height: 40px;
+margin-bottom: 30px;
+
+}
+
+.finalButtonDelete{
+  margin-left: 30px;
+  margin-top: 20px;
+  cursor: pointer;
+outline: none;
+font-family: 'Poppins', sans-serif;
+background-color: #d63031;
+color: white;
+border: none;
+border-radius: 5px;
+
+}
+
+.textboxStyle{
+  padding: 5px;
+  border: none;
+  outline: none;
+}
+.todo-description{
+  margin-left: 20px;
+}
+
+#iconColor{
+  color: #d63031;
+}
+
+#image{
+  margin-top: 60px;
+  margin-left: 350px;
+  width: 550px;
+  height: 350px;
+}

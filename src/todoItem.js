@@ -1,92 +1,160 @@
 import React from 'react';
 
 class TodoItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.editTask = this.editTask.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
+        this.doneTask=this.doneTask.bind(this);
+        this.state={
+            taskName:"",
+            taskDescription:"",
+            deadline:"",
+            showModal:false,
+            showEditDelete:false,
+            showDeleteModal:false,
+            showDoneModal:false,
+            done:true,
+            checkbox:false
+        };
+      }
    
-    state={
-        todoItems:[],
-        taskName:"",
-        taskDescription:"",
-        deadline:"",
-        showModal:false,
-        output:false,
-        normalRender:true
-    };
+    
     render(){
-        // console.log(this.state.showModal)
-        var output = this.state.todoItems.map(item => (
-            <TodoItem key={item._id} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} />
-        ));
+        var showDoneModal=(
+            <form  className="modal" >
+        <div className="modal-content">
+            <span className="close" onClick={() => this.closeDoneModal()}>&times;</span>
+            <h4 id="editTask"> ARE YOU SURE THIS TASK IS DONE ?</h4>
+            <br/>
+            <div id="formStylingButtons">
+            <button className="finalButtonDelete" onClick={() => this.closeDoneModal()}>No !</button>
+            <button value={this.props.id} className="finalButtonDelete" onClick={(e) => this.doneTask(e)}>Yes, it's done !</button>
+            </div>
+        </div>
+    </form>
 
-        var normalRender =( <div>
-            <div className="details">
-                <div className="todo-title">
-                    {this.props.TaskName}
-                    <br/>
-                    {this.props.id}
-                </div>
-                <div className="todo-description">
-                    {this.props.TaskDescription}
-                </div>
-                <div>
-                    {this.props.Deadline}
-                </div>
+        );
+
+        var showDeleteModal=(
+            <form  className="modal" >
+        <div className="modal-content">
+            <span className="close" onClick={() => this.closeDeleteModal()}>&times;</span>
+            <h4 id="editTask"> ARE YOU SURE YOU WANT TO DELETE THIS TASK ?</h4>
+            <br/>
+            <div id="formStylingButtons">
+            <button className="finalButtonDelete" onClick={() => this.closeDeleteModal()}>No, I don't want to delete !</button>
+            <button value={this.props.id} className="finalButtonDelete" onClick={(e) => this.deleteTask(e)}>Yes, I want to delete this task !</button>
             </div>
-            <div className="EditDelete">
-                <button id="myBtn" onClick={() => this.openModal()}>Edit</button> 
-                <button value={this.props.id} id="deleteButton" onClick={(e)=>this.delete(e)}>Delete</button>
-            </div>
-        </div>);
+        </div>
+    </form>
+
+        );
+        
 
         var editWindow = (<form id="myModal" className="modal" >
         <div className="modal-content">
             <span className="close" onClick={() => this.closeModal()}>&times;</span>
-            <p>Edit TASK</p>
+            <h4 id="editTask"> EDIT THIS TASK</h4>
             <br/>
-            <input type="textbox" placeholder="Edit task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
-            <input type="textbox" placeholder="Edit task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
-            <input type="date" placeholder="Edit task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
+            <div id="formStyling">
+            <input className="textboxStyle" type="textbox" placeholder="Edit task name" onChange={(e) => this.setTaskName(e)} value={this.state.taskName}/>
+            <input className="textboxStyle" type="textbox" placeholder="Edit task description" onChange={(f) => this.settaskDescription(f)} value={this.state.taskDescription}/>
+            <input className="textboxStyle" type="date" placeholder="Edit task date" onChange={(g) => this.setdeadline(g)} value={this.state.deadline}/>
+            </div>
             <br/>
-            <button value={this.props.id} className="finalEdit" onClick={(e) => this.edit(e)}>Edit Task</button>
+            <button value={this.props.id} className="finalButton" onClick={(e) => this.editTask(e)}>Edit Task</button>
         </div>
     </form>);
 
         return (
-            <div className="todo-item" >
-                {this.state.showModal?editWindow:""}
-               {this.state.normalRender?normalRender:""}
-               {this.state.output?output:""}
+            <div>
+                <h4 id="header">TASK :</h4>
+                <div className="mainDiv" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
+                        <div className="todo-item" onMouseEnter={()=> this.showEditDelete()}>
+                            <div className="details"  >
+                                <div className="todo-title">
+                                <input id="checkbox" type="checkbox" onClick={()=>this.showDoneModal()}/> {this.props.TaskName}
+                                {this.state.showDoneModal?showDoneModal:""}
+                                </div>
+                                <div className="todo-description">
+                                <i className="fas fa-tasks" id="iconColor"></i> {this.props.TaskDescription}
+                                <br/>
+                                <i className="fas fa-calendar-week"  id="iconColor"></i> {this.props.Deadline}
+                                </div>
+                            </div>
+                            {this.state.showEditDelete?(
+                                    <div className="EditDelete" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
+                                    <button id="editButton" onClick={() => this.openModal()}>Edit</button> 
+                                    {this.state.showModal?editWindow:""}
+                                    
+                                    <button value={this.props.id} id="deleteButton" onClick={(e)=>this.showDeleteModal(e)}>Delete</button>
+                                    {this.state.showDeleteModal?showDeleteModal:""}
+                                </div>
+                                ) : ""}
+                        </div>
+                        <br/>
+                </div>
+                <br/>
             </div>
+            
                
         );
         
     }
 
-    // setIsShown1()
-    // {
-    //     document.getElementById("editButton").style.display = "block";
-    //     document.getElementById("deleteButton").style.display = "block";
-    // }
+openModal(){
 
-    // setIsShown2()
-    // {
-    //     document.getElementById("editButton").style.display = "none";
-    //     document.getElementById("deleteButton").style.display = "none";
-    // }
+    this.setState({
+        showModal:true
+    })
+    console.log(this.state.showModal)
+}
+    closeModal(){
+    this.setState({
+        showModal:false
+    })
+}
 
+showDeleteModal(){
+    this.setState({
+        showDeleteModal:true
+    })
+}
 
-    openModal(){
-    
-        this.setState({
-            showModal:true
-        })
-        console.log(this.state.showModal)
-    }
-     closeModal(){
-        this.setState({
-            showModal:false
-        })
-    }
+closeDeleteModal(){
+    this.setState({
+        showDeleteModal:false
+    })
 
+}
+
+showDoneModal(){
+    this.setState({
+        showDoneModal:true
+    })
+}
+closeDoneModal(){
+    this.setState({
+        showDoneModal:false,
+        checkbox:false
+    })
+    document.getElementById("checkbox").checked=this.state.checkbox
+}
+
+showEditDelete()
+{
+    this.setState({
+        showEditDelete:true
+    })
+}
+dontShowEditDelete(e){
+    e.preventDefault()
+    this.setState({
+        showEditDelete:false
+    })
+    this.closeModal()
+}
 
 //     // =========================================
     setTaskName(e){
@@ -119,72 +187,35 @@ class TodoItem extends React.Component {
         })
        
     }
+    
+   
 // // =============================================
 
-    edit(e)
-    {
-        e.preventDefault();
-        this.setState({
-            normalRender:false
-        })
-        e.preventDefault();
-        console.log(e.target.value)
-        var url = "http://localhost:5000/api/todo/application/editTask/" + e.target.value ;
-        console.log(url)
-
-        fetch(url,{
-            method:"PUT",
-            body: JSON.stringify({
-                "taskName":this.state.taskName,
-                "taskDescription":this.state.taskDescription,
-                "deadline":this.state.deadline
-                }),
-            headers:{
-                "Content-type":"application/json; charset=UTF-8"
-                }
-            }).then(() => this.extra()  )            
-    };
-
-    extra(){
-        this.setState({
+   editTask(e){
+       e.preventDefault()
+    this.props.FunctionEdit(e.target.value, this.state.taskName,  this.state.taskDescription,  this.state.deadline )
+    this.closeModal()
+    this.setState({
         taskName:"",
         taskDescription:"",
-        deadline:"",
-        showModal:false,
+        deadline:""
     })
-    this.showTask()
+   }
 
+
+    deleteTask(e){
+        e.preventDefault()
+        this.props.FunctionDelete(e.target.value)
+        this.closeDeleteModal()
     }
 
+    doneTask(e){
+        e.preventDefault()
+        this.props.FunctionEditDone(e.target.value, this.state.done )
+        this.closeDoneModal()
 
-    async showTask(req,res) {
-        let test=[]
-        let response = await fetch("http://localhost:5000/api/todo/application/showTask")
-        let data = await response.json()
-     
-        for(var i=0; i<data.length;i++)
-        {
-            test.push(data[i])
-        }
-        this.setState({
-            todoItems : test,
-            output : true
-        })
-      
-    } 
 
-    delete(e)
-    {
-        e.preventDefault();
-        console.log(e.target.value)
-        var url = "http://localhost:5000/api/todo/application/deleteTask/" + e.target.value ;
-        console.log(url)
-
-        fetch(url,{
-            method:"POST",
-            }).then(() => this.extra()  )
     }
-
 
 }
    

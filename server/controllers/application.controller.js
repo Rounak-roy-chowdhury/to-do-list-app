@@ -2,6 +2,7 @@
 
 const HttpResponse = require('../models/http-response');
 const Todo = require('../models/todoModel');
+var url = require('url');
 
 
 const showTask = async(req, res) => {
@@ -24,7 +25,6 @@ const addTask = async(req, res) => {
 
     var createdTask;
     createdTask = new Todo(data);
-    console.log("ko")
 
     try {
         await createdTask.save();
@@ -72,9 +72,11 @@ const deleteTask = async(req, res) => {
 
 const queryTask = async(req, res) => {
     let query = [];
-    console.log(req.body.taskName)
+    var a = url.parse(req.url, true).query;
+    var q = a.taskName
+    console.log(q)
     try {
-        query = await Todo.find({ taskName: req.body.taskName })
+        query = await Todo.find({ taskName: q })
     } catch (err) {
         const error = new HttpResponse(
             'Something went wrong while checking user email',
@@ -83,6 +85,7 @@ const queryTask = async(req, res) => {
         return res.status(500).json({ response: error })
     }
     res.status(200).json(query)
+    console.log(query)
 
 }
 
