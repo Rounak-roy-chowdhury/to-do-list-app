@@ -22,7 +22,7 @@ class body extends React.Component {
       }
     render(){
         
-
+// CODE OF MODAL USED TO ADD TASK
         var addTask = (<div id="myModal" className="modal1">
         <div className="modal-content">
             <span className="close" onClick={() => this.closeModal1()}>&times;</span>
@@ -38,6 +38,7 @@ class body extends React.Component {
         </div>
     </div>);
 
+// CODE OF THE FIRST SCREEN BEFORE EVEN RENDERING THE TODOLIST
         var nothing=(
             <div>
                 <div>
@@ -50,10 +51,12 @@ class body extends React.Component {
             </div>
         );
 
+// CODE TO SHOW TODO ITEMS IN <ToDoItem/> NODE 
         var output = this.state.todoItems.map(item => (
             <TodoItem  key={item._id} FunctionEditDone={this.editDone} FunctionDelete={this.delete} FunctionEdit={this.edit} TaskName={item.taskName} TaskDescription={item.taskDescription} Deadline={item.deadline} id={item._id}/>
         ));
-
+        
+// CODE TO SHOW NAVBAR IN <Navbar/> NODE
         var navbar = (<Navbar FunctionSearch={this.search} FunctionShow={this.showTask}/>)
 
         return(
@@ -68,6 +71,7 @@ class body extends React.Component {
             );
     }
 
+// TO OPEN & CLOSE MODAL TO ADD TODOTIEM
      openModal1(){
          this.setState({
             addTask:true
@@ -80,7 +84,7 @@ class body extends React.Component {
     }
 
 
-// =========================================
+// TO SET STATES OF VARIOUS VARIABLES FOR VARIOUS USES
     setTaskName(e){
         e.preventDefault();
         this.setState({
@@ -99,9 +103,10 @@ class body extends React.Component {
             deadline:g.target.value
         })
     }
-// ============================================
 
+// ALL FUNCTIONS STARTS BELOW THIS
 
+// FUNCTION TO ADD A TODOITEM
     addTask(e){
         var url = "http://localhost:5000/api/todo/application/addTask"
         fetch(url,{
@@ -118,17 +123,8 @@ class body extends React.Component {
         
     };
 
-    extra(){
-            this.setState({
-            taskName:"",
-            taskDescription:"",
-            deadline:"",
-            addTask:false,
-            nothing:false
-        })
-        this.showTask()
-    }
 
+// THIS IS TO EDIT A PARTICULAR TODOITEM (NORMAL EDIT)
     edit(e,x,y,z)
     {
         
@@ -149,6 +145,7 @@ class body extends React.Component {
             }).then(() => this.extra()  )            
     };
 
+//THIS IS TO MARK DONE (EDIT isDone FIELD) TO ANY PARTICULAR TODOITEM 
     editDone(e,x)
     {
         
@@ -168,7 +165,7 @@ class body extends React.Component {
     };
 
 
-
+// TO DELETE ANY PARTICULAR TODOITEM
     delete(e)
     { 
         var url = "http://localhost:5000/api/todo/application/deleteTask/" + e ;
@@ -179,7 +176,7 @@ class body extends React.Component {
             }).then(() => this.extra()  )
     }
 
-
+// TO SEARCH/QUERY ANY PARTICULAR TODOITEM
     async search(x)
     {
         console.log("hi")
@@ -199,7 +196,7 @@ class body extends React.Component {
         
     }
 
-    
+// TO SHOW/RENDER TODOITEMS
     async showTask(req,res) {
         console.log("hi")
         let test=[]
@@ -214,6 +211,18 @@ class body extends React.Component {
         })
         
     }
+
+//THIS FUNCTION HOLDS MANY FUNCTIONALITIES WHICH ARE USEFUL TO MANY FUNCTIONS WRITTEN HERE 
+    extra(){
+        this.setState({
+        taskName:"",
+        taskDescription:"",
+        deadline:"",
+        addTask:false,
+        nothing:false
+    })
+    this.showTask()
+}
    
 }
 export default body;

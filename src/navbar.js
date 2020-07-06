@@ -30,6 +30,8 @@ class Navbar extends React.Component {
         })
 
     }
+
+// USED TO GO TO THE FunctionSearch PROP THAT IS, THE 'search()' FUNCTION IN BODY.JS
     search(){
         if(this.state.taskName!="")
         {

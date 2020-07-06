@@ -1,8 +1,0 @@
-POST http://localhost:5000/api/todo/application/addTask
-content-type: application/json
-
-{
-    "taskName": "first",
-    "taskDescription": "firsttodolist",
-    "deadline": "2021-05-12",
-}

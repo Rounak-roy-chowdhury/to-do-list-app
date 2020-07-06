@@ -21,6 +21,8 @@ class TodoItem extends React.Component {
    
     
     render(){
+
+// CODE OF MODAL USED TO MARK A TODO ITEM AS DONE
         var showDoneModal=(
             <form  className="modal" >
         <div className="modal-content">
@@ -35,6 +37,9 @@ class TodoItem extends React.Component {
     </form>
 
         );
+    
+    
+// CODE OF MODAL USED TO DELETE A TODO ITEM
 
         var showDeleteModal=(
             <form  className="modal" >
@@ -51,6 +56,7 @@ class TodoItem extends React.Component {
 
         );
         
+// CODE OF MODAL USED TO EDIT A TODO ITEM
 
         var editWindow = (<form id="myModal" className="modal" >
         <div className="modal-content">
@@ -103,6 +109,7 @@ class TodoItem extends React.Component {
         
     }
 
+// TO OPEN & CLOSE MODAL TO EDIT TODO ITEM
 openModal(){
 
     this.setState({
@@ -116,6 +123,8 @@ openModal(){
     })
 }
 
+
+// TO OPEN & CLOSE MODAL TO DELETE TODO ITEM
 showDeleteModal(){
     this.setState({
         showDeleteModal:true
@@ -129,6 +138,7 @@ closeDeleteModal(){
 
 }
 
+// TO OPEN & CLOSE MODAL TO MARK A TODO ITEM AS DONE
 showDoneModal(){
     this.setState({
         showDoneModal:true
@@ -142,6 +152,7 @@ closeDoneModal(){
     document.getElementById("checkbox").checked=this.state.checkbox
 }
 
+// TO SHOW & HIDE EDIT & DELETE BUTTON
 showEditDelete()
 {
     this.setState({
@@ -156,7 +167,7 @@ dontShowEditDelete(e){
     this.closeModal()
 }
 
-//     // =========================================
+// TO SET STATES OF VARIOUS VARIABLES FOR VARIOUS USES
     setTaskName(e){
 
         e.preventDefault();
@@ -189,7 +200,9 @@ dontShowEditDelete(e){
     }
     
    
-// // =============================================
+// ALL FUNCTIONS STARTS BELOW THIS
+
+// USED TO GO TO THE FunctionEdit PROP THAT IS, THE 'edit()' FUNCTION IN BODY.JS
 
    editTask(e){
        e.preventDefault()
@@ -203,12 +216,14 @@ dontShowEditDelete(e){
    }
 
 
+// USED TO GO TO THE FunctionDelete PROP THAT IS, THE 'delete()' FUNCTION IN BODY.JS
     deleteTask(e){
         e.preventDefault()
         this.props.FunctionDelete(e.target.value)
         this.closeDeleteModal()
     }
 
+// USED TO GO TO THE FunctionEditDone PROP THAT IS, THE 'editDone()' FUNCTION IN BODY.JS
     doneTask(e){
         e.preventDefault()
         this.props.FunctionEditDone(e.target.value, this.state.done )
