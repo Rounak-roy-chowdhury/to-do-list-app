@@ -89,6 +89,8 @@ class TodoItem extends React.Component {
                                 <i className="fas fa-calendar-week"  id="iconColor"></i> {this.props.Deadline}
                                 </div>
                             </div>
+                            
+                            {/* CODE TO SHOW EDIT & DELETE BUTTON */}
                             {this.state.showEditDelete?(
                                     <div className="EditDelete" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
                                     <button id="editButton" onClick={() => this.openModal()}>Edit</button> 

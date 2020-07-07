@@ -226,6 +226,3 @@ class body extends React.Component {
    
 }
 export default body;
-
-
-
