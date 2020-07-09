@@ -11,16 +11,68 @@ class body extends React.Component {
         this.search = this.search.bind(this);
         this.showTask=this.showTask.bind(this);
         this.editDone=this.editDone.bind(this);
+        this.SidePanelControl=this.SidePanelControl.bind(this);
         this.state={
             todoItems:[],
             taskName:"",
             taskDescription:"",
             deadline:"",
             addTask:false,
-            nothing:true
+            nothing:true,
+            sidePanel:true,
+            dueTasks:false,
+            completedTasks:false
         };
       }
     render(){
+
+// CODE OF "Check completed tasks by" IN SIDE PANEL
+        var completedTasks=(
+            <div>
+                <i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i class="fas fa-caret-up" onClick={()=>this.completedTasks()}></i>
+                <div id="dropdown2">
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Label</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task completion date</a>
+                </div>
+            </div>
+        );
+
+// CODE OF "Check due tasks by" IN SIDE PANEL
+        var dueTasks=(
+            <div>
+                <i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i class="fas fa-caret-up" onClick={()=>this.dueTasks()}></i>
+                <div id="dropdown1">
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Label</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;No deadline</a>
+                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Overdue</a>
+                </div>
+            </div>
+        );
+// CODE OF SIDE PANEL
+        var sidePanelOutput=(
+            <div id="sidePanel">
+                <div>
+                    <a id="dashboard">Your Dashboard</a>
+                </div>
+                <div className="categories">
+                    <i id="today" className="fas fa-calendar-day"></i><a className="topics">Today</a>
+                </div>
+                <div className="categories1">
+                    {this.state.dueTasks?dueTasks:(<div><i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i class="fas fa-caret-down" onClick={()=>this.dueTasks()}></i></div>)}
+                </div>
+                <div className="categories">
+                   {this.state.completedTasks?completedTasks:(<div><i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i class="fas fa-caret-down" onClick={()=>this.completedTasks()}></i></div>)}
+                </div>
+            </div>
+
+            
+        );
         
 // CODE OF MODAL USED TO ADD TASK
         var addTask = (<div id="myModal" className="modal1">
@@ -42,12 +94,12 @@ class body extends React.Component {
         var nothing=(
             <div>
                 <div>
-                <img id="image" src={image}/>
+                    <img id="image" src={image}/>
                 </div>
                 <br/>
                 <br/>
-            <button id="myBtn1" onClick={() => this.openModal1()}>Why don't you add a new task ?</button>
-            {this.state.addTask?addTask:""}
+                <button id="myBtn1" onClick={() => this.openModal1()}>Why don't you add a new task ?</button>
+                {this.state.addTask?addTask:""}
             </div>
         );
 
@@ -57,16 +109,19 @@ class body extends React.Component {
         ));
         
 // CODE TO SHOW NAVBAR IN <Navbar/> NODE
-        var navbar = (<Navbar FunctionSearch={this.search} FunctionShow={this.showTask}/>)
+        var navbar = (<Navbar FunctionSidePanel={this.SidePanelControl} FunctionSearch={this.search} FunctionShow={this.showTask}/>)
 
         return(
             <div>
                 {navbar}
-                <div className="body">
-                    {this.state.nothing?nothing:output}
+                <div className="todoItems">
+                    <div className="body">
+                        {this.state.sidePanel?sidePanelOutput:""}
+                        {this.state.nothing?nothing:output}
+                    </div>
+                    {this.state.nothing?"":(<button className="finalButtonAdd" onClick={(e) => this.openModal1(e)}>Add a new Task</button>)}
+                    {this.state.addTask?addTask:""}
                 </div>
-                {this.state.nothing?"":(<button className="finalButtonAdd" onClick={(e) => this.openModal1(e)}>Add a new Task</button>)}
-                {this.state.addTask?addTask:""}
             </div>
             );
     }
@@ -128,9 +183,9 @@ class body extends React.Component {
     edit(e,x,y,z)
     {
         
-        console.log(e)
+       
         var url = "http://localhost:5000/api/todo/application/editTask/" + e ;
-        console.log(url)
+       
 
         fetch(url,{
             method:"PUT",
@@ -149,9 +204,9 @@ class body extends React.Component {
     editDone(e,x)
     {
         
-        console.log(e)
+        
         var url = "http://localhost:5000/api/todo/application/editTask/" + e ;
-        console.log(url)
+       
 
         fetch(url,{
             method:"PUT",
@@ -169,7 +224,7 @@ class body extends React.Component {
     delete(e)
     { 
         var url = "http://localhost:5000/api/todo/application/deleteTask/" + e ;
-        console.log(url)
+       
 
         fetch(url,{
             method:"POST",
@@ -179,10 +234,8 @@ class body extends React.Component {
 // TO SEARCH/QUERY ANY PARTICULAR TODOITEM
     async search(x)
     {
-        console.log("hi")
+       
         let response = await fetch("http://localhost:5000/api/todo/application/queryTask/" + "?taskName=" +x);
-        var url = "http://localhost:5000/api/todo/application/queryTask/" + "?taskName=" +x
-        console.log(url)
         let data = await response.json()
         let test=[]
         for(var i=0; i<data.length;i++)
@@ -192,13 +245,13 @@ class body extends React.Component {
         this.setState({
             todoItems : test
         })
-        console.log(this.state.todoItems)
+       
         
     }
 
 // TO SHOW/RENDER TODOITEMS
     async showTask(req,res) {
-        console.log("hi")
+       
         let test=[]
         let response = await fetch("http://localhost:5000/api/todo/application/showTask")
         let data = await response.json()
@@ -223,6 +276,57 @@ class body extends React.Component {
     })
     this.showTask()
 }
+
+// TO TOGGLE THE SIDE PANEL
+
+  SidePanelControl(e){
+      if(e===true)
+      {
+          this.setState({
+              sidePanel:true
+          })
+      }
+      else if(e===false)
+      {
+          this.setState({
+              sidePanel:false,
+              dueTasks:false,
+              completedTasks:false
+          })
+      }
+  }
+
+//   TO OPEN/CLOSE DUE "Check due tasks by" IN SIDE PANEL
+  dueTasks(){
+      if(this.state.dueTasks===false)
+      {
+        this.setState({
+            dueTasks:true
+        })
+      }
+      else if(this.state.dueTasks===true)
+      {
+        this.setState({
+            dueTasks:false
+        })
+      }
+  }
+
+//   TO OPEN/CLOSE DUE "Check completed tasks by" IN SIDE PANEL
+  completedTasks(){
+    if(this.state.completedTasks===false)
+    {
+      this.setState({
+        completedTasks:true
+      })
+    }
+    else if(this.state.completedTasks===true)
+    {
+      this.setState({
+        completedTasks:false
+      })
+    }
+  }
    
 }
 export default body;

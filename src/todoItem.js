@@ -75,35 +75,38 @@ class TodoItem extends React.Component {
 
         return (
             <div>
-                <h4 id="header">TASK :</h4>
-                <div className="mainDiv" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
-                        <div className="todo-item" onMouseEnter={()=> this.showEditDelete()}>
-                            <div className="details"  >
-                                <div className="todo-title">
-                                <input id="checkbox" type="checkbox" onClick={()=>this.showDoneModal()}/> {this.props.TaskName}
-                                {this.state.showDoneModal?showDoneModal:""}
-                                </div>
-                                <div className="todo-description">
-                                <i className="fas fa-tasks" id="iconColor"></i> {this.props.TaskDescription}
-                                <br/>
-                                <i className="fas fa-calendar-week"  id="iconColor"></i> {this.props.Deadline}
-                                </div>
-                            </div>
-                            
-                            {/* CODE TO SHOW EDIT & DELETE BUTTON */}
-                            {this.state.showEditDelete?(
-                                    <div className="EditDelete" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
-                                    <button id="editButton" onClick={() => this.openModal()}>Edit</button> 
-                                    {this.state.showModal?editWindow:""}
-                                    
-                                    <button value={this.props.id} id="deleteButton" onClick={(e)=>this.showDeleteModal(e)}>Delete</button>
-                                    {this.state.showDeleteModal?showDeleteModal:""}
-                                </div>
-                                ) : ""}
-                        </div>
-                        <br/>
-                </div>
                 <br/>
+                <br/>
+                    <h4 id="header">TASK :</h4>
+                    <div className="mainDiv" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
+                            <div className="todo-item" onMouseEnter={()=> this.showEditDelete()}>
+                                <div className="details"  >
+                                    <div className="todo-title">
+                                    <input id="checkbox" type="checkbox" onClick={()=>this.showDoneModal()}/> {this.props.TaskName}
+                                    {this.state.showDoneModal?showDoneModal:""}
+                                    </div>
+                                    <div className="todo-description">
+                                    <i className="fas fa-tasks" id="iconColor"></i> {this.props.TaskDescription}
+                                    <br/>
+                                    <i className="fas fa-calendar-week"  id="iconColor"></i> {this.props.Deadline}
+                                    </div>
+                                </div>
+
+                                {/* CODE TO SHOW EDIT & DELETE BUTTON */}
+                                {this.state.showEditDelete?(
+                                        <div className="EditDelete" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
+                                        <button id="editButton" onClick={() => this.openModal()}>Edit</button> 
+                                        {this.state.showModal?editWindow:""}
+                                        
+                                        <button value={this.props.id} id="deleteButton" onClick={(e)=>this.showDeleteModal(e)}>Delete</button>
+                                        {this.state.showDeleteModal?showDeleteModal:""}
+                                    </div>
+                                    ) : ""}
+                            </div>
+                            <br/>
+                    </div>
+                    <br/>
+               
             </div>
             
                
