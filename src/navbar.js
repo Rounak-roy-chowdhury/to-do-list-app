@@ -15,7 +15,7 @@ class Navbar extends React.Component {
         return(
             <div>
                  <div  className="navbar">
-                    <i id="bars" onClick={(e)=>this.SidePanelControl(e)} class="fas fa-bars"></i>
+                    <i id="bars" onClick={(e)=>this.SidePanelControl(e)} className="fas fa-bars"></i>
                     <div className="search-bar">
                         <input id="search" type="textbox" placeholder="Search your task" onChange={(e) => this.input(e)} />
                         <button id="icon" type="submit" onClick={()=>this.search()}><i className="fa fa-search"></i></button>

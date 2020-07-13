@@ -29,13 +29,13 @@ class body extends React.Component {
 // CODE OF "Check completed tasks by" IN SIDE PANEL
         var completedTasks=(
             <div>
-                <i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i class="fas fa-caret-up" onClick={()=>this.completedTasks()}></i>
+                <i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i className="fas fa-caret-up" onClick={()=>this.completedTasks()}></i>
                 <div id="dropdown2">
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
+                    <a className="options" onClick={()=>this.showTask("all2")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
+                    <a className="options" onClick={()=>this.showTask("taskName2")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
                     <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Label</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task completion date</a>
+                    <a className="options" onClick={()=>this.showTask("priority2")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
+                    <a className="options" onClick={()=>this.showTask("isDoneDate")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Task completion date</a>
                 </div>
             </div>
         );
@@ -43,14 +43,14 @@ class body extends React.Component {
 // CODE OF "Check due tasks by" IN SIDE PANEL
         var dueTasks=(
             <div>
-                <i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i class="fas fa-caret-up" onClick={()=>this.dueTasks()}></i>
+                <i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i className="fas fa-caret-up" onClick={()=>this.dueTasks()}></i>
                 <div id="dropdown1">
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
+                    <a className="options" onClick={()=>this.showTask("all1")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Show all</a>
+                    <a className="options" onClick={()=>this.showTask("taskName1")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Task name</a>
                     <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Label</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;No deadline</a>
-                    <a className="options"><i class="fas fa-arrow-circle-right"></i>&nbsp;Overdue</a>
+                    <a className="options" onClick={()=>this.showTask("priority1")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Priority</a>
+                    <a className="options" onClick={()=>this.showTask("noDeadline")}><i class="fas fa-arrow-circle-right"></i>&nbsp;No deadline</a>
+                    <a className="options" onClick={()=>this.showTask("overdue")}><i class="fas fa-arrow-circle-right"></i>&nbsp;Overdue</a>
                 </div>
             </div>
         );
@@ -64,10 +64,10 @@ class body extends React.Component {
                     <i id="today" className="fas fa-calendar-day"></i><a className="topics">Today</a>
                 </div>
                 <div className="categories1">
-                    {this.state.dueTasks?dueTasks:(<div><i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i class="fas fa-caret-down" onClick={()=>this.dueTasks()}></i></div>)}
+                    {this.state.dueTasks?dueTasks:(<div><i id="dueTasks" className="fas fa-exclamation-triangle" onClick={()=>this.dueTasks()}></i><a className="topics" onClick={()=>this.dueTasks()}>Check due tasks by </a><i className="fas fa-caret-down" onClick={()=>this.dueTasks()}></i></div>)}
                 </div>
                 <div className="categories">
-                   {this.state.completedTasks?completedTasks:(<div><i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i class="fas fa-caret-down" onClick={()=>this.completedTasks()}></i></div>)}
+                   {this.state.completedTasks?completedTasks:(<div><i id="doneTasks" className="fas fa-clipboard-check" onClick={()=>this.completedTasks()}></i><a className="topics" onClick={()=>this.completedTasks()}>Check completed tasks by </a><i className="fas fa-caret-down" onClick={()=>this.completedTasks()}></i></div>)}
                 </div>
             </div>
 
@@ -243,24 +243,25 @@ class body extends React.Component {
             test.push(data[i])
         }
         this.setState({
-            todoItems : test
+            todoItems : test,
+            nothing:false
         })
        
         
     }
 
 // TO SHOW/RENDER TODOITEMS
-    async showTask(req,res) {
-       
+    async showTask(e) {
         let test=[]
-        let response = await fetch("http://localhost:5000/api/todo/application/showTask")
+        let response = await fetch("http://localhost:5000/api/todo/application/showTask/" + "?sort=" + e)
         let data = await response.json()
         for(var i=0; i<data.length;i++)
         {
             test.push(data[i])
         }
         this.setState({
-            todoItems : test
+            todoItems : test,
+            nothing:false
         })
         
     }
@@ -274,7 +275,7 @@ class body extends React.Component {
         addTask:false,
         nothing:false
     })
-    this.showTask()
+    this.showTask("all1")
 }
 
 // TO TOGGLE THE SIDE PANEL

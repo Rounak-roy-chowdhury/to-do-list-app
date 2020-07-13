@@ -77,7 +77,7 @@ class TodoItem extends React.Component {
             <div>
                 <br/>
                 <br/>
-                    <h4 id="header">TASK :</h4>
+                    {/* <h4 id="header">TASK :</h4> */}
                     <div className="mainDiv" onMouseLeave={(e)=>this.dontShowEditDelete(e)}>
                             <div className="todo-item" onMouseEnter={()=> this.showEditDelete()}>
                                 <div className="details"  >
